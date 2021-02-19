@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Colors
-import Element exposing (Element, column, el, fill, height, image, padding, paragraph, rgb, row, spacing, text, width)
+import Element exposing (Element, column, el, fill, height, image, padding, paragraph, rgb, row, shrink, spacing, text, width)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -57,7 +57,7 @@ view model =
                 ]
                 { label = text t, onPress = ma }
     in
-    column [ height fill ]
+    column [ height fill, padding 2, spacing 2 ]
         [ row [ padding 10, Background.color Colors.bg ]
             [ image []
                 { description = "The Elm logo"
@@ -75,24 +75,32 @@ view model =
           , ( Colors.error, "Reset", Just ClearMessages )
           ]
             |> List.map btn
-            |> row [ width fill, padding 10, spacing 10 ]
+            |> row
+                [ width fill
+                , padding 2
+                , spacing 2
+                ]
         , column
             [ Background.color Colors.secondary
             , padding 10
+            , width fill
+            , Element.centerX
             ]
-            [ text "List of things that happened:"
-            , if List.isEmpty model.messages then
-                text "...nothing yet..."
-                    |> el [ Font.size 12 ]
-
-              else
-                model.messages
-                    |> List.map text
-                    |> column
-                        [ Font.size 20
-                        , padding 8
-                        , spacing 4
+            [ row [] <|
+                List.append [ text "List of things that happened:" ] <|
+                    if List.isEmpty model.messages then
+                        [ el [ Font.size 12 ] <| text "...nothing yet..."
                         ]
+
+                    else
+                        []
+            , model.messages
+                |> List.map text
+                |> column
+                    [ Font.size 20
+                    , padding 8
+                    , spacing 4
+                    ]
             ]
         ]
 
@@ -108,7 +116,6 @@ main =
             view
                 >> Element.layout
                     [ Background.color Colors.primary
-                    , padding 2
                     ]
         , init = \_ -> init
         , update = update
