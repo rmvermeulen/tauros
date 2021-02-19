@@ -8,9 +8,10 @@ setTimeout(() => {
   tauri
     .promisified({
       cmd: "doSomething",
-      count: 2,
+      count: 12,
       payload: { num: 12, text: "lorem ipsum" },
     })
+    .then(JSON.stringify)
     .then((response) => console.log(`response: ${response}`))
     .catch(console.error);
 }, 2000);

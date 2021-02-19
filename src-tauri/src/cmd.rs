@@ -1,7 +1,6 @@
 use serde::Deserialize;
 
-#[derive(Deserialize)]
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct DoSomethingPayload {
   text: String,
   num: u64,
@@ -16,5 +15,8 @@ pub enum Cmd {
   DoSomething {
     count: u64,
     payload: DoSomethingPayload,
+
+    callback: String,
+    error: String,
   },
 }
